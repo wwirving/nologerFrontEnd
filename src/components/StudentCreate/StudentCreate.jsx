@@ -7,19 +7,21 @@ const StudentCreate = () => {
   useEffect(() => {
     function createStudent(obj) {
       console.log(obj);
-      fetch("http://localhost:8080/students", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(obj),
-      })
-        .then(function (response) {
-          return response.json();
+      if (obj.firstName) {
+        fetch("http://localhost:8080/students", {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(obj),
         })
-        .then(function (data) {
-          console.log("Created new Student", data.html_url);
-        });
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (data) {
+            console.log("Created new Student", data.html_url);
+          });
+      }
     }
 
     createStudent(newStudent);

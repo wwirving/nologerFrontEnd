@@ -7,7 +7,9 @@ const StudentCard = (props) => {
   return (
     <>
       <div className={styles.card}>
-        <h1>{student.firstName}</h1>
+        <p>
+          {student.firstName} {student.lastName}
+        </p>
       </div>
     </>
   );

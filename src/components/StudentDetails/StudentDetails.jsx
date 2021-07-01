@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./StudentDetails.module.scss";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const StudentDetails = (props) => {
   let { id } = useParams();
@@ -14,6 +15,7 @@ const StudentDetails = (props) => {
     fetch("http://localhost:8080/students/" + id)
       .then((response) => response.json())
       .then((jsonResponse) => {
+        console.log(jsonResponse);
         setStudents(jsonResponse);
       });
   }, [id]);
@@ -21,27 +23,33 @@ const StudentDetails = (props) => {
   return (
     <>
       <div className={styles.pageContainer}>
-        <h3>{student.firstName}</h3>
-        <h3>{student.lastName}</h3>
-        <h3>{student.age}</h3>
-        <h3>{student.location}</h3>
-        <button
-          type="button"
-          onClick={() => {
-            fetch("http://localhost:8080/delete-student/" + id, {
-              method: "delete",
-            })
-              .then(function (response) {
-                return response.json();
+        <p>First Name: {student.firstName}</p>
+        <p>Last Name : {student.lastName}</p>
+        <p>Age: {student.age}</p>
+        <p>Location: {student.location}</p>
+        <p>Location: {student.interests && student.interests.join(", ")}</p>
+        <Link to="/">
+          <button
+            type="button"
+            onClick={() => {
+              fetch("http://localhost:8080/students/" + id, {
+                method: "delete",
               })
-              .then(function (data) {
-                console.log("Created new Student", data.html_url);
-              });
-          }}
-        >
-          Delete
-        </button>
-        {/* <h3>{student.interests[0]}{student.interests[1]}</h3> */}
+                .then(function (response) {
+                  return response.json();
+                })
+                .then(function (data) {
+                  console.log("deleted student", data.html_url);
+                })
+                .then(() => {
+                  props.del();
+                });
+            }}
+          >
+            Delete
+          </button>
+        </Link>
+        <button type="button">Return</button>
       </div>
     </>
   );

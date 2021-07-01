@@ -7,14 +7,12 @@ const Nav = () => {
     <>
       <div className={styles.sticky}>
         <div className={styles.nav}>
-          <ul>
-            <Link to="/">
-              <li>Home</li>
-            </Link>
-            <Link to="/create">
-              <li>Create</li>
-            </Link>
-          </ul>
+          <Link to="/">
+            <span>Students</span>
+          </Link>
+          <Link to="/courses">
+            <span>Courses</span>
+          </Link>
         </div>
       </div>
     </>

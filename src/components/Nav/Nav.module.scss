@@ -1,4 +1,13 @@
 .sticky {
   position: fixed;
   z-index: 100;
+  top: 0;
+  width: 100vw;
+}
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }

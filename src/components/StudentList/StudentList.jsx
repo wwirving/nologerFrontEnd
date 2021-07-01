@@ -4,8 +4,14 @@ import StudentCard from "../StudentCard";
 import { Link, Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import StudentDetails from "../StudentDetails";
 
-const StudentList = () => {
+const StudentList = (props) => {
   const [studentList, setList] = useState([]);
+
+  const [isDeleted, setDeleted] = useState(false);
+
+  const toggleDelete = () => {
+    setDeleted(!isDeleted);
+  };
 
   useEffect(() => {
     fetch("http://localhost:8080/students")
@@ -15,27 +21,40 @@ const StudentList = () => {
       });
   }, []);
 
+  useEffect(() => {
+    fetch("http://localhost:8080/students")
+      .then((response) => response.json())
+      .then((jsonResponse) => {
+        setList(jsonResponse);
+      });
+  }, [props.del]);
+
   const getStudentJSX = (student) => {
     return (
-      <Link to={`/${student.id}`}>
+      <Link to={`/students/${student.id}`}>
         <StudentCard student={student} />
+        <div className={styles.line} />
       </Link>
     );
   };
 
   return (
     <>
-      <Router>
-        <div className={styles.pageContainer}>
-          <h1> Students </h1>
-          <div className={styles.cardContainer}>
-            {studentList.map(getStudentJSX)}
-            <Switch>
+      <div className={styles.pageContainer}>
+        <h1> Students </h1>
+        <div className={styles.cardContainer}>
+          <Link to="/createStudent">
+            <div className={styles.new}>
+              <p>New +</p>
+              <div className={styles.line} />
+            </div>
+          </Link>
+          {studentList.map(getStudentJSX)}
+          {/* <Switch>
               <Route path="/:id" children={<StudentDetails />} />
-            </Switch>
-          </div>
+            </Switch> */}
         </div>
-      </Router>
+      </div>
     </>
   );
 };
